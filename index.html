@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ayan-Saver</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ayancybers/ayan-saver/main/icon.png">
+
+    <style>
+        :root {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #ffffff;
+            --primary: #3a7bd5;
+            --success: #2ecc71;
+            --border: #333;
+            --input-bg: #2a2a2a;
+        }
+
+        .light-mode {
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #1e3c72;
+            --border: #ddd;
+            --input-bg: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 10px 10px 110px;
+            transition: 0.3s;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        .main-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .stat-card input {
+            width: 80%;
+            background: transparent;
+            color: var(--text);
+            border: none;
+            border-bottom: 2px solid var(--primary);
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            outline: none;
+        }
+
+        .balance-card {
+            grid-column: span 2;
+            border: 2px solid var(--success);
+        }
+
+        .day-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-right: 6px solid #555;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .day-card.completed {
+            border-right-color: var(--success);
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .input-group input {
+            width: 90px;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--input-bg);
+            color: var(--text);
+            text-align: center;
+        }
+
+        .prayer-row {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .prayer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8em;
+        }
+
+        .prayer-item input {
+            width: 24px;
+            height: 24px;
+            margin-top: 6px;
+            accent-color: var(--success);
+        }
+
+        .save-btn {
+            position: fixed;
+            bottom: 25px;
+            left: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 تبديل الوضع</button>
+    <h2 style="margin:0">Ayan-Saver 💰</h2>
+    <p style="margin:5px 0 0; opacity:0.8;">مخطط المصاريف والصلوات</p>
+</div>
+
+<div class="main-stats">
+    <div class="stat-card">
+        <span style="font-size:0.9em; opacity:0.7">💰 الراتب</span><br>
+        <input type="number" id="salary" value="3000" oninput="calc()">
+    </div>
+    <div class="stat-card">
+        <span style="font-size:0.9em; opacity:0.7">🏦 تجميع (ادخار)</span><br>
+        <input type="number" id="saving" value="500" oninput="calc()">
+    </div>
+    <div class="stat-card balance-card">
+        <span style="font-size:1em; opacity:0.8">💵 المتبقي الصافي للمصاريف</span><br>
+        <span id="net" style="font-size: 2em; font-weight: bold; color: var(--success);">0</span>
+    </div>
+</div>
+
+<div id="daysList"></div>
+
+<button class="save-btn" onclick="saveToDevice()">حفظ جميع البيانات ✅</button>
+
+<script>
+
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    }
+
+
+    const list = document.getElementById('daysList');
+    const structure = [
+        { month: 'ديسمبر', days: [29, 30, 31] },
+        { month: 'يناير', days: Array.from({length: 31}, (_, i) => i + 1) }
+    ];
+    
+    structure.forEach(m => {
+        m.days.forEach(d => {
+            let div = document.createElement('div');
+            div.className = 'day-card';
+            div.id = `d-${m.month}-${d}`;
+            div.innerHTML = `
+                <span style="font-weight:bold; color:var(--primary); font-size:1.1em;">📅 ${d} ${m.month}</span>
+                <div class="input-group">
+                    <label>مصاريف اليوم:</label>
+                    <input type="number" class="day-exp" id="exp-${m.month}-${d}" placeholder="0" oninput="calc()">
+                </div>
+                <div class="prayer-row">
+                    ${['فجر','ظهر','عصر','مغرب','عشاء'].map((p, i) => `
+                        <div class="prayer-item">
+                            <span>${p}</span>
+                            <input type="checkbox" id="p-${i}-${m.month}-${d}" onchange="checkDay('${m.month}-${d}')">
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    });
+
+    function checkDay(id) {
+        let card = document.getElementById(`d-${id}`);
+        let checks = card.querySelectorAll('input[type="checkbox"]:checked').length;
+        if(checks === 5) card.classList.add('completed');
+        else card.classList.remove('completed');
+    }
+
+    function calc() {
+        let s = parseFloat(document.getElementById('salary').value) || 0;
+        let v = parseFloat(document.getElementById('saving').value) || 0;
+        let spent = 0;
+        document.querySelectorAll('.day-exp').forEach(i => spent += parseFloat(i.value) || 0);
+        let final = s - v - spent;
+        document.getElementById('net').innerText = final + " ريال";
+        document.getElementById('net').style.color = final < 0 ? '#e74c3c' : '#2ecc71';
+    }
+
+
+    function saveToDevice() {
+        const data = {
+            salary: document.getElementById('salary').value,
+            saving: document.getElementById('saving').value,
+            expenses: Array.from(document.querySelectorAll('.day-exp')).map(i => ({id: i.id, val: i.value})),
+            prayers: Array.from(document.querySelectorAll('input[type="checkbox"]')).map(c => ({id: c.id, val: c.checked}))
+        };
+        localStorage.setItem('ayanSaverData', JSON.stringify(data));
+        alert('تم حفظ بياناتك بنجاح يا ايان! 🚀');
+    }
+
+
+    function loadData() {
+        if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        
+        const saved = JSON.parse(localStorage.getItem('ayanSaverData'));
+        if(saved) {
+            document.getElementById('salary').value = saved.salary;
+            document.getElementById('saving').value = saved.saving;
+            saved.expenses.forEach(e => { if(document.getElementById(e.id)) document.getElementById(e.id).value = e.val; });
+            saved.prayers.forEach(p => { 
+                if(document.getElementById(p.id)) {
+                    document.getElementById(p.id).checked = p.val;
+                    let dayId = p.id.split('-').slice(2).join('-');
+                    checkDay(dayId);
+                }
+            });
+            calc();
+        }
+    }
+
+    window.onload = loadData;
+    calc();
+</script>
+</body>
+</html>
