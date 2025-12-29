@@ -11,139 +11,49 @@
 
     <style>
         :root {
-            --bg: #121212;
-            --card-bg: #1e1e1e;
-            --text: #ffffff;
-            --primary: #3a7bd5;
-            --success: #2ecc71;
-            --warning: #f1c40f;
-            --border: #333;
+            --bg: #121212; --card-bg: #1e1e1e; --text: #ffffff;
+            --primary: #3a7bd5; --success: #2ecc71; --warning: #f1c40f; --danger: #e74c3c;
         }
-
         .light-mode {
-            --bg: #f0f2f5;
-            --card-bg: #ffffff;
-            --text: #1e3c72;
-            --border: #ddd;
+            --bg: #f0f2f5; --card-bg: #ffffff; --text: #1e3c72;
         }
-
         body {
-            font-family: -apple-system, system-ui, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 10px 10px 110px;
-            transition: 0.3s;
+            font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg);
+            color: var(--text); margin: 0; padding: 10px 10px 110px; transition: 0.3s;
         }
-
         .header {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            padding: 20px;
-            border-radius: 20px;
-            text-align: center;
-            position: relative;
-            margin-bottom: 15px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298); color: white;
+            padding: 20px; border-radius: 20px; text-align: center; position: relative; margin-bottom: 15px;
         }
-
         .theme-toggle {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 12px;
+            position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2);
+            border: none; color: white; padding: 8px 12px; border-radius: 12px;
         }
-
-        .main-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
+        .main-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-card {
-            background: var(--card-bg);
-            padding: 12px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background: var(--card-bg); padding: 12px; border-radius: 15px;
+            text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-
         .stat-card input {
-            width: 85%;
-            background: transparent;
-            color: var(--text);
-            border: none;
-            border-bottom: 2px solid var(--primary);
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
-            outline: none;
+            width: 85%; background: transparent; color: var(--text); border: none;
+            border-bottom: 2px solid var(--primary); text-align: center; font-size: 1.1em; font-weight: bold; outline: none;
         }
-
-        .balance-card {
-            grid-column: span 2;
-            background: linear-gradient(145deg, #1e1e1e, #252525);
-            border: 2px solid var(--success);
+        .bank-focus {
+            grid-column: span 2; background: linear-gradient(145deg, #1e1e1e, #252525);
+            border: 2px solid var(--primary);
         }
-
-        .day-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-right: 6px solid #555;
+        .alert-card {
+            grid-column: span 2; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--warning); padding: 10px; border-radius: 15px; font-size: 0.9em;
         }
-
+        .day-card { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 12px; border-right: 6px solid #555; }
         .day-card.completed { border-right-color: var(--success); }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .input-group input {
-            width: 90px;
-            padding: 8px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: rgba(255,255,255,0.05);
-            color: var(--text);
-            text-align: center;
-        }
-
-        .prayer-row {
-            display: flex;
-            justify-content: space-around;
-            background: rgba(255,255,255,0.05);
-            padding: 12px;
-            border-radius: 12px;
-        }
-
+        .input-group { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .input-group input { width: 90px; padding: 8px; border-radius: 10px; border: 1px solid #444; background: rgba(255,255,255,0.05); color: var(--text); text-align: center; }
+        .prayer-row { display: flex; justify-content: space-around; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; }
         .prayer-item { display: flex; flex-direction: column; align-items: center; font-size: 0.8em; }
         .prayer-item input { width: 24px; height: 24px; margin-top: 6px; accent-color: var(--success); }
-
-        .save-btn {
-            position: fixed;
-            bottom: 25px;
-            left: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-            z-index: 1000;
-        }
-
-        .helper-text { font-size: 0.75em; opacity: 0.7; margin-top: 5px; display: block; }
+        .save-btn { position: fixed; bottom: 25px; left: 20px; right: 20px; background: var(--success); color: white; border: none; padding: 18px; border-radius: 20px; font-size: 1.2em; font-weight: bold; z-index: 1000; }
     </style>
 </head>
 <body>
@@ -154,10 +64,10 @@
 </div>
 
 <div class="main-stats">
-    <div class="stat-card balance-card">
-        <span style="color: var(--success); font-weight: bold;">🏦 رصيدك الفعلي الآن</span><br>
-        <input type="number" id="bank_now" value="0" oninput="calc()" style="font-size: 2em; color: var(--success);">
-        <span class="helper-text">(عدل هذا الرقم ليتطابق مع تطبيق البنك)</span>
+    <div class="stat-card bank-focus">
+        <span style="color: var(--primary); font-weight: bold;">🏦 رصيد البنك (يتأثر بالصرف)</span><br>
+        <input type="number" id="bank_input" value="0" oninput="calc()" style="font-size: 1.8em; color: var(--text);">
+        <div id="bank_live" style="font-size: 0.9em; margin-top: 5px; color: var(--success);"></div>
     </div>
 
     <div class="stat-card">
@@ -165,13 +75,18 @@
         <input type="number" id="salary" value="3000" oninput="calc()">
     </div>
     <div class="stat-card">
-        <span>🏦 المدخر</span><br>
+        <span>🏦 الادخار</span><br>
         <input type="number" id="saving" value="500" oninput="calc()">
+    </div>
+
+    <div class="stat-card alert-card">
+        <span>⚠️ المتبقي المفترض (حسب الحسابات):</span>
+        <span id="expected_net" style="font-weight: bold; color: var(--warning);">0</span>
+        <div id="status_msg" style="font-size: 0.8em; margin-top: 5px;"></div>
     </div>
 </div>
 
 <div id="daysList"></div>
-
 <button class="save-btn" onclick="saveToDevice()">حفظ البيانات ✅</button>
 
 <script>
@@ -180,7 +95,6 @@
         localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     }
 
-    const list = document.getElementById('daysList');
     const structure = [
         { month: 'ديسمبر', days: [29, 30, 31] },
         { month: 'يناير', days: Array.from({length: 31}, (_, i) => i + 1) }
@@ -194,19 +108,16 @@
             div.innerHTML = `
                 <span style="font-weight:bold; color:var(--primary);">📅 ${d} ${m.month}</span>
                 <div class="input-group">
-                    <label>مصاريف اليوم:</label>
+                    <label>صرفت اليوم:</label>
                     <input type="number" class="day-exp" id="exp-${m.month}-${d}" placeholder="0" oninput="calc()">
                 </div>
                 <div class="prayer-row">
                     ${['فجر','ظهر','عصر','مغرب','عشاء'].map((p, i) => `
-                        <div class="prayer-item">
-                            <span>${p}</span>
-                            <input type="checkbox" id="p-${i}-${m.month}-${d}" onchange="checkDay('${m.month}-${d}')">
-                        </div>
+                        <div class="prayer-item"><span>${p}</span><input type="checkbox" id="p-${i}-${m.month}-${d}" onchange="checkDay('${m.month}-${d}')"></div>
                     `).join('')}
                 </div>
             `;
-            list.appendChild(div);
+            document.getElementById('daysList').appendChild(div);
         });
     });
 
@@ -218,42 +129,55 @@
     }
 
     function calc() {
-        // الحساب هنا للعرض فقط، المرجع هو خانة البنك
-        let bank = parseFloat(document.getElementById('bank_now').value) || 0;
-        // يمكنك إضافة منطق حسابي هنا إذا أردت مستقبلاً
+        let bankInitial = parseFloat(document.getElementById('bank_input').value) || 0;
+        let salary = parseFloat(document.getElementById('salary').value) || 0;
+        let saving = parseFloat(document.getElementById('saving').value) || 0;
+        let totalSpent = 0;
+        document.querySelectorAll('.day-exp').forEach(i => totalSpent += parseFloat(i.value) || 0);
+
+        // 1. حساب الرصيد البنكي الحي (ينقص من الرقم اللي دخلته)
+        let bankLive = bankInitial - totalSpent;
+        document.getElementById('bank_live').innerText = "الباقي فعلياً: " + bankLive + " ريال";
+
+        // 2. حساب المتبقي المفترض (المنبه)
+        let expected = salary - saving - totalSpent;
+        document.getElementById('expected_net').innerText = expected + " ريال";
+
+        // 3. رسالة التنبيه
+        let msg = document.getElementById('status_msg');
+        if (bankInitial === salary - saving) {
+            msg.innerText = "✅ حساباتك دقيقة جداً"; msg.style.color = "var(--success)";
+        } else {
+            msg.innerText = "💡 تذكر: الرصيد فوق هو مرجعك، والمتبقي تحت هو هدفك."; msg.style.color = "var(--warning)";
+        }
     }
 
     function saveToDevice() {
         const data = {
-            bank: document.getElementById('bank_now').value,
+            bank: document.getElementById('bank_input').value,
             salary: document.getElementById('salary').value,
             saving: document.getElementById('saving').value,
             expenses: Array.from(document.querySelectorAll('.day-exp')).map(i => ({id: i.id, val: i.value})),
             prayers: Array.from(document.querySelectorAll('input[type="checkbox"]')).map(c => ({id: c.id, val: c.checked}))
         };
-        localStorage.setItem('ayanSaverDataV5', JSON.stringify(data));
-        alert('تم الحفظ بنجاح! 🚀');
+        localStorage.setItem('ayanSaverFinal', JSON.stringify(data));
+        alert('تم الحفظ يا أبان! 🚀');
     }
 
-    function loadData() {
+    window.onload = function() {
         if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-        const saved = JSON.parse(localStorage.getItem('ayanSaverDataV5'));
+        const saved = JSON.parse(localStorage.getItem('ayanSaverFinal'));
         if(saved) {
-            document.getElementById('bank_now').value = saved.bank || 0;
+            document.getElementById('bank_input').value = saved.bank;
             document.getElementById('salary').value = saved.salary;
             document.getElementById('saving').value = saved.saving;
             saved.expenses.forEach(e => { if(document.getElementById(e.id)) document.getElementById(e.id).value = e.val; });
-            saved.prayers.forEach(p => { 
-                if(document.getElementById(p.id)) {
-                    document.getElementById(p.id).checked = p.val;
-                    checkDay(p.id.split('-').slice(2).join('-'));
-                }
-            });
+            saved.prayers.forEach(p => { if(document.getElementById(p.id)) document.getElementById(p.id).checked = p.val; });
+            // تحديث حالة الأيام
+            structure.forEach(m => m.days.forEach(d => checkDay(`${m.month}-${d}`)));
             calc();
         }
-    }
-
-    window.onload = loadData;
+    };
 </script>
 </body>
 </html>
