@@ -191,14 +191,14 @@
 <button class="save-btn" onclick="saveToDevice()">حفظ جميع البيانات ✅</button>
 
 <script>
-
+    // تبديل الوضع الداكن والفاتح
     function toggleTheme() {
         document.body.classList.toggle('light-mode');
         const isLight = document.body.classList.contains('light-mode');
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
     }
 
-
+    // إنشاء قائمة الأيام (ديسمبر + يناير)
     const list = document.getElementById('daysList');
     const structure = [
         { month: 'ديسمبر', days: [29, 30, 31] },
@@ -246,7 +246,7 @@
         document.getElementById('net').style.color = final < 0 ? '#e74c3c' : '#2ecc71';
     }
 
-
+    // حفظ البيانات في ذاكرة الجوال
     function saveToDevice() {
         const data = {
             salary: document.getElementById('salary').value,
@@ -255,10 +255,10 @@
             prayers: Array.from(document.querySelectorAll('input[type="checkbox"]')).map(c => ({id: c.id, val: c.checked}))
         };
         localStorage.setItem('ayanSaverData', JSON.stringify(data));
-        alert('تم حفظ بياناتك بنجاح يا ايان! 🚀');
+        alert('تم حفظ بياناتك بنجاح يا أبان! 🚀');
     }
 
-
+    // استعادة البيانات عند فتح التطبيق
     function loadData() {
         if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         
