@@ -161,7 +161,7 @@
             prayers: Array.from(document.querySelectorAll('input[type="checkbox"]')).map(c => ({id: c.id, val: c.checked}))
         };
         localStorage.setItem('ayanSaverFinal', JSON.stringify(data));
-        alert('تم الحفظ يا أبان! 🚀');
+        alert('تم الحفظ بنجاح! 🚀');
     }
 
     window.onload = function() {
