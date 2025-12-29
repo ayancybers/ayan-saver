@@ -41,7 +41,7 @@
 </div>
 
 <div id="daysList"></div>
-<button class="save-btn" onclick="alert('تم الحفظ محلياً!')">حفظ البيانات ✅</button>
+<button class="save-btn" onclick="alert('تم الحفظ!')">حفظ البيانات ✅</button>
 
 <script>
     let pass = prompt("أدخل رمز الدخول:");
@@ -49,7 +49,6 @@
     else { alert("خطأ!"); window.location.reload(); }
 
     const list = document.getElementById('daysList');
-    // إضافة أيام ديسمبر الأخيرة + أيام يناير
     const specialDays = [29, 30, 31];
     
     function createCard(day, month) {
