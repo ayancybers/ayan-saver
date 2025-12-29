@@ -18,7 +18,6 @@
             --success: #2ecc71;
             --warning: #f1c40f;
             --border: #333;
-            --input-bg: #2a2a2a;
         }
 
         .light-mode {
@@ -26,7 +25,6 @@
             --card-bg: #ffffff;
             --text: #1e3c72;
             --border: #ddd;
-            --input-bg: #ffffff;
         }
 
         body {
@@ -41,7 +39,7 @@
         .header {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: white;
-            padding: 25px 20px;
+            padding: 20px;
             border-radius: 20px;
             text-align: center;
             position: relative;
@@ -57,7 +55,6 @@
             color: white;
             padding: 8px 12px;
             border-radius: 12px;
-            font-size: 0.8em;
         }
 
         .main-stats {
@@ -76,26 +73,21 @@
         }
 
         .stat-card input {
-            width: 80%;
+            width: 85%;
             background: transparent;
             color: var(--text);
             border: none;
             border-bottom: 2px solid var(--primary);
             text-align: center;
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: bold;
             outline: none;
         }
 
         .balance-card {
             grid-column: span 2;
+            background: linear-gradient(145deg, #1e1e1e, #252525);
             border: 2px solid var(--success);
-        }
-
-        .bank-card {
-            grid-column: span 2;
-            background: rgba(58, 123, 213, 0.1);
-            border: 1px dashed var(--primary);
         }
 
         .day-card {
@@ -120,7 +112,7 @@
             padding: 8px;
             border-radius: 10px;
             border: 1px solid var(--border);
-            background: var(--input-bg);
+            background: rgba(255,255,255,0.05);
             color: var(--text);
             text-align: center;
         }
@@ -150,32 +142,31 @@
             font-weight: bold;
             z-index: 1000;
         }
+
+        .helper-text { font-size: 0.75em; opacity: 0.7; margin-top: 5px; display: block; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <button class="theme-toggle" onclick="toggleTheme()">🌓 تبديل الوضع</button>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
     <h2 style="margin:0">Ayan-Saver 💰</h2>
 </div>
 
 <div class="main-stats">
+    <div class="stat-card balance-card">
+        <span style="color: var(--success); font-weight: bold;">🏦 رصيدك الفعلي الآن</span><br>
+        <input type="number" id="bank_now" value="0" oninput="calc()" style="font-size: 2em; color: var(--success);">
+        <span class="helper-text">(عدل هذا الرقم ليتطابق مع تطبيق البنك)</span>
+    </div>
+
     <div class="stat-card">
         <span>💰 الراتب</span><br>
-        <input type="number" id="salary" value="1500" oninput="calc()">
+        <input type="number" id="salary" value="3000" oninput="calc()">
     </div>
     <div class="stat-card">
         <span>🏦 المدخر</span><br>
         <input type="number" id="saving" value="500" oninput="calc()">
-    </div>
-    <div class="stat-card bank-card">
-        <span>🏦 الرصيد الحالي في البنك</span><br>
-        <input type="number" id="bank_balance" value="0" oninput="calc()" style="font-size: 1.4em; color: var(--warning);">
-    </div>
-    <div class="stat-card balance-card">
-        <span>💵 المتبقي (حسب الحسابات)</span><br>
-        <span id="net" style="font-size: 1.8em; font-weight: bold; color: var(--success);">0</span>
-        <div id="diff" style="font-size: 0.8em; margin-top: 5px; opacity: 0.8;"></div>
     </div>
 </div>
 
@@ -227,48 +218,30 @@
     }
 
     function calc() {
-        let s = parseFloat(document.getElementById('salary').value) || 0;
-        let v = parseFloat(document.getElementById('saving').value) || 0;
-        let bank = parseFloat(document.getElementById('bank_balance').value) || 0;
-        let spent = 0;
-        document.querySelectorAll('.day-exp').forEach(i => spent += parseFloat(i.value) || 0);
-        
-        let expectedNet = s - v - spent;
-        document.getElementById('net').innerText = expectedNet + " ريال";
-        
-        let difference = bank - expectedNet;
-        let diffEl = document.getElementById('diff');
-        if (difference === 0) {
-            diffEl.innerHTML = "✅ الحسابات مطابقة لرصيد البنك";
-            diffEl.style.color = "var(--success)";
-        } else if (difference > 0) {
-            diffEl.innerHTML = `⚠️ لديك زيادة ${difference} ريال غير مسجلة`;
-            diffEl.style.color = "var(--warning)";
-        } else {
-            diffEl.innerHTML = `🚨 نقص ${Math.abs(difference)} ريال (صرفت ولم تسجل!)`;
-            diffEl.style.color = "#e74c3c";
-        }
+        // الحساب هنا للعرض فقط، المرجع هو خانة البنك
+        let bank = parseFloat(document.getElementById('bank_now').value) || 0;
+        // يمكنك إضافة منطق حسابي هنا إذا أردت مستقبلاً
     }
 
     function saveToDevice() {
         const data = {
+            bank: document.getElementById('bank_now').value,
             salary: document.getElementById('salary').value,
             saving: document.getElementById('saving').value,
-            bank: document.getElementById('bank_balance').value,
             expenses: Array.from(document.querySelectorAll('.day-exp')).map(i => ({id: i.id, val: i.value})),
             prayers: Array.from(document.querySelectorAll('input[type="checkbox"]')).map(c => ({id: c.id, val: c.checked}))
         };
-        localStorage.setItem('ayanSaverDataV4', JSON.stringify(data));
-        alert('تم الحفظ بنجاح استمرّ للإبداع ! 🚀');
+        localStorage.setItem('ayanSaverDataV5', JSON.stringify(data));
+        alert('تم الحفظ بنجاح! 🚀');
     }
 
     function loadData() {
         if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-        const saved = JSON.parse(localStorage.getItem('ayanSaverDataV4'));
+        const saved = JSON.parse(localStorage.getItem('ayanSaverDataV5'));
         if(saved) {
+            document.getElementById('bank_now').value = saved.bank || 0;
             document.getElementById('salary').value = saved.salary;
             document.getElementById('saving').value = saved.saving;
-            document.getElementById('bank_balance').value = saved.bank || 0;
             saved.expenses.forEach(e => { if(document.getElementById(e.id)) document.getElementById(e.id).value = e.val; });
             saved.prayers.forEach(p => { 
                 if(document.getElementById(p.id)) {
@@ -281,7 +254,6 @@
     }
 
     window.onload = loadData;
-    calc();
 </script>
 </body>
 </html>
