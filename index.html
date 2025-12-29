@@ -7,200 +7,84 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Ayan-Saver">
-    <link rel="apple-touch-icon" href="https://r.jina.ai/i/9e0a0a544521406e98b0669894e77373">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ayancybers/ayan-saver/main/icon.png">
 
     <style>
-        :root {
-            --primary: #1e3c72;
-            --accent: #2a5298;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-            --gold: #f1c40f;
-            --white: #ffffff;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 10px;
-            padding-bottom: 100px;
-        }
-
-        .header {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            padding: 30px 20px;
-            border-radius: 25px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            margin-bottom: 20px;
-        }
-
-        .main-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .stat-card input {
-            width: 80%;
-            border: none;
-            border-bottom: 2px solid #eee;
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .balance-card {
-            grid-column: span 2;
-            background: #fff;
-            border: 2px solid var(--success);
-        }
-
-        .day-card {
-            background: white;
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            border-right: 6px solid #ccc;
-        }
-
-        .day-card.completed { border-right-color: var(--success); background-color: #fafffa; }
-
-        .day-title { font-weight: bold; color: var(--primary); margin-bottom: 10px; display: block; }
-
-        .input-group { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
-        .input-group input { width: 40%; padding: 8px; border-radius: 10px; border: 1px solid #ddd; text-align: center; }
-
-        .prayer-row {
-            display: flex;
-            justify-content: space-around;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 12px;
-        }
-
-        .prayer-item { display: flex; flex-direction: column; align-items: center; font-size: 0.8em; }
-        .prayer-item input { width: 22px; height: 22px; margin-top: 5px; cursor: pointer; }
-
-        .save-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
-            z-index: 1000;
-        }
+        :root { --primary: #1e3c72; --accent: #2a5298; --success: #2ecc71; --danger: #e74c3c; --gold: #f1c40f; }
+        body { font-family: -apple-system, system-ui, sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px 10px 100px; }
+        .header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; padding: 25px; border-radius: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .main-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .stat-card { background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .stat-card input { width: 90%; border: none; border-bottom: 2px solid #eee; text-align: center; font-size: 1.1em; font-weight: bold; }
+        .balance-card { grid-column: span 2; border: 2px solid var(--success); }
+        .day-card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-right: 5px solid #ccc; }
+        .day-card.completed { border-right-color: var(--success); background-color: #f0fff4; }
+        .input-group { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .input-group input { width: 80px; padding: 8px; border-radius: 8px; border: 1px solid #ddd; text-align: center; }
+        .prayer-row { display: flex; justify-content: space-around; background: #f8f9fa; padding: 10px; border-radius: 10px; }
+        .prayer-item { display: flex; flex-direction: column; align-items: center; font-size: 0.75em; }
+        .prayer-item input { width: 20px; height: 20px; margin-top: 5px; }
+        .save-btn { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--success); color: white; border: none; padding: 15px; border-radius: 15px; font-size: 1.1em; font-weight: bold; z-index: 1000; }
     </style>
 </head>
 <body id="mainBody" style="display:none;">
 
 <div class="header">
-    <img src="https://r.jina.ai/i/9e0a0a544521406e98b0669894e77373" style="width: 80px; border-radius: 20px; margin-bottom: 10px;">
-    <h1 style="margin:0">Ayan-Saver</h1>
-    <p style="opacity:0.8">يناير 2026 - التزامي المالي والروحي</p>
+    <h2 style="margin:0">Ayan-Saver 💰✨</h2>
+    <p style="margin:5px 0 0; opacity:0.8;">نهاية 2025 & يناير 2026</p>
 </div>
 
 <div class="main-stats">
-    <div class="stat-card">
-        <span style="font-size: 0.8em; color: #666;">💰 الراتب</span><br>
-        <input type="number" id="salary" value="3000" onchange="calc()">
-    </div>
-    <div class="stat-card">
-        <span style="font-size: 0.8em; color: #666;">🏦 ادخار (تجميع)</span><br>
-        <input type="number" id="saving" value="500" onchange="calc()">
-    </div>
-    <div class="stat-card balance-card">
-        <span style="font-size: 0.9em; color: #666;">💵 المتبقي للمصاريف</span><br>
-        <span id="net" style="font-size: 2em; font-weight: bold; color: var(--success);">0</span>
-    </div>
+    <div class="stat-card"><span>💰 الراتب</span><br><input type="number" id="salary" value="3000" onchange="calc()"></div>
+    <div class="stat-card"><span>🏦 تجميع</span><br><input type="number" id="saving" value="500" onchange="calc()"></div>
+    <div class="stat-card balance-card"><span>💵 المتبقي الصافي</span><br><span id="net" style="font-size: 1.5em; font-weight: bold; color: var(--success);">0</span></div>
 </div>
 
 <div id="daysList"></div>
-
-<button class="save-btn" onclick="saveData()">حفظ البيانات ✅</button>
+<button class="save-btn" onclick="alert('تم الحفظ محلياً!')">حفظ البيانات ✅</button>
 
 <script>
-    // نظام الحماية (كلمة السر)
-    let password = prompt("أدخل رمز الدخول لـ Ayan-Saver:");
-    if(password === "2026") { // غير الرقم السري من هنا
-        document.getElementById('mainBody').style.display = 'block';
-    } else {
-        alert("خطأ! لا يمكن الدخول");
-        window.location.reload();
-    }
+    let pass = prompt("أدخل رمز الدخول:");
+    if(pass === "2026") { document.getElementById('mainBody').style.display = 'block'; }
+    else { alert("خطأ!"); window.location.reload(); }
 
-    const daysList = document.getElementById('daysList');
-    const prayers = ['فجر', 'ظهر', 'عصر', 'مغرب', 'عشاء'];
-
-    // إنشاء الأيام
-    for(let i=1; i<=31; i++) {
+    const list = document.getElementById('daysList');
+    // إضافة أيام ديسمبر الأخيرة + أيام يناير
+    const specialDays = [29, 30, 31];
+    
+    function createCard(day, month) {
         let div = document.createElement('div');
         div.className = 'day-card';
-        div.id = `day-${i}`;
+        div.id = `d-${month}-${day}`;
         div.innerHTML = `
-            <span class="day-title">📅 يوم ${i} يناير</span>
-            <div class="input-group">
-                <label>صرفت كم اليوم؟</label>
-                <input type="number" class="day-exp" id="exp-${i}" placeholder="0" onchange="calc()">
-            </div>
+            <span style="font-weight:bold; color:var(--primary)">📅 ${day} ${month}</span>
+            <div class="input-group"><label>كم صرفت؟</label><input type="number" class="day-exp" onchange="calc()"></div>
             <div class="prayer-row">
-                ${prayers.map((p, idx) => `
-                    <div class="prayer-item">
-                        <span>${p}</span>
-                        <input type="checkbox" id="p${idx}-${i}" onchange="checkDay(${i})">
-                    </div>
+                ${['فجر','ظهر','عصر','مغرب','عشاء'].map((p, i) => `
+                    <div class="prayer-item"><span>${p}</span><input type="checkbox" onchange="checkDay('${month}-${day}')"></div>
                 `).join('')}
             </div>
         `;
-        daysList.appendChild(div);
+        list.appendChild(div);
     }
 
-    function checkDay(day) {
-        let count = 0;
-        for(let j=0; j<5; j++) {
-            if(document.getElementById(`p${j}-${day}`).checked) count++;
-        }
-        if(count === 5) document.getElementById(`day-${day}`).classList.add('completed');
-        else document.getElementById(`day-${day}`).classList.remove('completed');
+    specialDays.forEach(d => createCard(d, 'ديسمبر'));
+    for(let i=1; i<=31; i++) { createCard(i, 'يناير'); }
+
+    function checkDay(id) {
+        let card = document.getElementById(`d-${id}`);
+        let checks = card.querySelectorAll('input[type="checkbox"]:checked').length;
+        if(checks === 5) card.classList.add('completed');
+        else card.classList.remove('completed');
     }
 
     function calc() {
-        let sal = parseFloat(document.getElementById('salary').value) || 0;
-        let sav = parseFloat(document.getElementById('saving').value) || 0;
+        let s = parseFloat(document.getElementById('salary').value) || 0;
+        let v = parseFloat(document.getElementById('saving').value) || 0;
         let spent = 0;
-        document.querySelectorAll('.day-exp').forEach(inp => spent += parseFloat(inp.value) || 0);
-        
-        let final = sal - sav - spent;
-        document.getElementById('net').innerText = final + " ريال";
-        document.getElementById('net').style.color = final < 0 ? 'red' : '#2ecc71';
+        document.querySelectorAll('.day-exp').forEach(i => spent += parseFloat(i.value) || 0);
+        document.getElementById('net').innerText = (s - v - spent) + " ريال";
     }
-
-    function saveData() {
-        alert("تم الحفظ بنجاح يا أبان! 🚀");
-        // هنا يمكن إضافة تخزين في LocalStorage لاحقاً
-    }
-    
     calc();
 </script>
 </body>
